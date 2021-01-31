@@ -18,7 +18,21 @@ class AuthServices {
 
       return SignInSignUpResult(user: user);
     }catch (e) {
-      return SignInSignUpResult(massage: e.toString());
+      return SignInSignUpResult(massage: e.toString().split(',')[1]);
+    }
+  }
+
+  static Future<SignInSignUpResult> signIn(
+      String email, String password) async {
+    try {
+      AuthResult result = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+
+      User user = await result.user.fromFireStore();
+
+      return SignInSignUpResult(user: user);
+    } catch (e) {
+      return SignInSignUpResult(massage: e.toString().split(',')[1]);
     }
   }
 }
