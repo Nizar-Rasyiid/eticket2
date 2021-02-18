@@ -1,4 +1,7 @@
 import 'package:eticket/services/services.dart';
+import 'package:provider/provider.dart';
+
+import 'ui/pages/pages.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -8,50 +11,12 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              RaisedButton(
-                child: Text("Sign Up"),
-                onPressed: () async {
-                  SignInSignUpResult result = await AuthServices.signUp(
-                    "nurmadinatulquran@gmail.com", 
-                    "smkBisa123", 
-                    "Nur", 
-                    ["Action","Horror","Gore"], 
-                    "Indonesia"
-                  );
-
-                  if(result.user == null){
-                    print(result.massage);
-                  }else{
-                    print(result.user.toString());
-                  }
-                }
-              ),
-              RaisedButton(
-                child: Text("Sign In"),
-                onPressed: () async {
-                  SignInSignUpResult result = await AuthServices.signIn(
-                    "nurmadinatulquran@gmail.com", 
-                    "smkBisa123"
-                  );
-
-                  if(result.user == null){
-                    print(result.massage);
-                  }else{
-                    print(result.user.toString());
-                  }
-                }
-              )
-            ],
-          ),
-        ),
-      ),
+    return StreamProvider.value(
+      value: AuthServices.userStream,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Wrapper()
+      )
     );
   }
 }

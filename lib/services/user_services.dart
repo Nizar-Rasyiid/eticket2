@@ -8,9 +8,7 @@ class UserServices {
     _userCollection.document(user.id).setData({
       'email': user.email,
       'name': user.name,
-      'balance': user.balance,
-      'selectedGenres': user.selectedGenres,
-      'selectedLanguage': user.selectedLanguage,
+      'numberPhone' : user.numberPhone,
       'profilePicture': user.profilePicture ?? " "
     });
   }
@@ -19,12 +17,8 @@ class UserServices {
     DocumentSnapshot snapshot = await _userCollection.document(id).get();
 
     return User(id, snapshot.data['email'],
-        balance: snapshot.data['balance'],
         profilePicture: snapshot.data['profilePicture'],
-        selectedGenres: (snapshot.data['selectedGenres'] as List)
-            .map((e) => e.toString())
-            .toList(),
-        selectedLanguage: snapshot.data['selectedLanguage'],
+        numberPhone: snapshot.data['numberPhone'],
         name: snapshot.data['name']);
   }
 }
